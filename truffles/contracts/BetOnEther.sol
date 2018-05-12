@@ -33,7 +33,9 @@ contract BetOnEther {
         bool withdrawed; // 已经提款
     }
 
-    mapping (address => Bet[]) public bets;  // 所有玩家
+    mapping (address => Bet[]) public bets;  // 所有玩家的下注信息
+    uint public betCount;                    // 下注总数量
+    address[] public players;                // 所有玩家 <如果有多次下注 会记录重复地址>
 
     uint public betEnd;
     uint public gameEnd;
@@ -106,6 +108,9 @@ contract BetOnEther {
 
         // 对应总奖金 + _profit
         bonuss[_result] += _profit;
+
+        betCount += 1;
+        players.push(msg.sender);
     }
 
     /// 修改倍率
